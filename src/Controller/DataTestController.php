@@ -42,7 +42,7 @@ class DataTestController extends Controller
         $myURL = Director::absoluteBaseURL() . explode('//', $rule)[0];
 
         $helper = new FoxyHelper();
-        $myKey = $helper->getStoreSecret();
+        $myKey = $helper->config()->get('secret');
 
         $this->updateConfig();
         $config = static::config()->get('data');
@@ -91,7 +91,10 @@ class DataTestController extends Controller
 
         $order_id = $data['OrderID'];
         if ($order_id === 'auto' || $order_id < 1) {
-            $lastOrderID = Order::get()->sort('Order_ID')->last()->Order_ID;
+            $lastOrderID = 0;
+            if ($lastOrder = Order::get()->sort('Order_ID')->last()){
+                $lastOrderID = $lastOrder->Order_ID;
+            };
             static::config()->merge('data', [
                 'OrderID' => $lastOrderID + 1,
             ]);
