@@ -6,7 +6,6 @@ use Dynamic\Foxy\Model\FoxyHelper;
 use Dynamic\Foxy\Model\Order;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Dev\Debug;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
@@ -42,7 +41,7 @@ class FoxyController extends Controller
     {
         $request = $this->getRequest();
         if ($request->postVar('FoxyData') || $request->postVar('FoxySubscriptionData')) {
-            //$this->processFoxyRequest($request);
+            $this->processFoxyRequest($request);
             return 'foxy';
         }
         return 'No FoxyData or FoxySubscriptionData received.';
@@ -75,7 +74,7 @@ class FoxyController extends Controller
     private function decryptFeedData($data)
     {
         $helper = FoxyHelper::create();
-        return \rc4crypt::decrypt($helper->getStoreSecret(), $data);
+        return \rc4crypt::decrypt($helper->config()->get('secret'), $data);
     }
 
     /**
@@ -104,9 +103,9 @@ class FoxyController extends Controller
         if (!isset($transaction->id)) {
             return false;
         }
-        if (!$order = Order::get()->filter('Order_ID', (int)$transaction->id)->first()) {
+        if (!$order = Order::get()->filter('OrderID', (int)$transaction->id)->first()) {
             $order = Order::create();
-            $order->Order_ID = (int)$transaction->id;
+            $order->OrderID = (int)$transaction->id;
             $order->Response = urlencode($encryptedData);
         }
         $order->write();
@@ -129,7 +128,7 @@ class FoxyController extends Controller
         }
 
         $helper = FoxyHelper::create();
-        $auth_token = sha1($Member->Customer_ID . '|' . $timestampNew . '|' . $helper->getStoreSecret());
+        $auth_token = sha1($Member->Customer_ID . '|' . $timestampNew . '|' . $helper->config()->get('secret'));
         $link = FoxyHelper::StoreURL();
 
         $params = [

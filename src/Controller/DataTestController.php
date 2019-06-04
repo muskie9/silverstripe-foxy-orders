@@ -12,7 +12,6 @@ use SilverStripe\Dev\DebugView;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\PasswordEncryptor;
-use SilverStripe\View\ArrayData;
 
 /**
  * Class DataTestController
@@ -89,11 +88,11 @@ class DataTestController extends Controller
             'TransactionDate' => strtotime($transactionDate),
         ]);
 
-        $order_id = $data['OrderID'];
-        if ($order_id === 'auto' || $order_id < 1) {
+        $orderID = $data['OrderID'];
+        if ($orderID === 'auto' || $orderID < 1) {
             $lastOrderID = 0;
-            if ($lastOrder = Order::get()->sort('Order_ID')->last()){
-                $lastOrderID = $lastOrder->Order_ID;
+            if ($lastOrder = Order::get()->sort('OrderID')->last()) {
+                $lastOrderID = $lastOrder->OrderID;
             };
             static::config()->merge('data', [
                 'OrderID' => $lastOrderID + 1,

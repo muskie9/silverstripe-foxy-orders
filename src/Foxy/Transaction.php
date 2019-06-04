@@ -2,7 +2,7 @@
 
 namespace Dynamic\FoxyStripe\Foxy;
 
-use Dynamic\Foxy\Model\Setting;
+use Dynamic\Foxy\Model\FoxyHelper;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\ORM\ValidationException;
 
@@ -77,7 +77,7 @@ class Transaction
      */
     private function getDecryptedData($data)
     {
-        $config = Setting::current_foxy_setting();
-        return new \SimpleXMLElement(\rc4crypt::decrypt($config::getStoreKey(), $data));
+        $helper = new FoxyHelper();
+        return new \SimpleXMLElement(\rc4crypt::decrypt($helper->config()->get('secret'), $data));
     }
 }

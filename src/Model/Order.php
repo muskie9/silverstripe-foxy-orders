@@ -9,13 +9,34 @@ use SilverStripe\ORM\FieldType\DBHTMLVarchar;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\Security\Member;
 
+/**
+ * Class Order
+ * @package Dynamic\Foxy\Model
+ *
+ * @property \SilverStripe\ORM\FieldType\DBInt StoreID
+ * @property \SilverStripe\ORM\FieldType\DBInt OrderID
+ * @property \SilverStripe\ORM\FieldType\DBVarchar Email
+ * @property \SilverStripe\ORM\FieldType\DBDatetime TransactionDate
+ * @property \SilverStripe\ORM\FieldType\DBCurrency ProductTotal
+ * @property \SilverStripe\ORM\FieldType\DBCurrency TaxTotal
+ * @property \SilverStripe\ORM\FieldType\DBCurrency ShippingTotal
+ * @property \SilverStripe\ORM\FieldType\DBCurrency OrderTotal
+ * @property \SilverStripe\ORM\FieldType\DBVarchar ReceiptURL
+ * @property \SilverStripe\ORM\FieldType\DBVarchar OrderStatus
+ * @property \SilverStripe\ORM\FieldType\DBText Response
+ *
+ * @property int MemberID
+ * @method Member Member
+ */
 class Order extends DataObject
 {
     /**
      * @var array
      */
     private static $db = [
-        'Order_ID' => 'Int',
+        'StoreID' => 'Int',
+        'OrderID' => 'Int',
+        'Email' => 'Varchar(255)',
         'TransactionDate' => 'DBDatetime',
         'ProductTotal' => 'Currency',
         'TaxTotal' => 'Currency',
@@ -24,13 +45,6 @@ class Order extends DataObject
         'ReceiptURL' => 'Varchar(255)',
         'OrderStatus' => 'Varchar(255)',
         'Response' => 'Text',
-    ];
-
-    /**
-     * @var array
-     */
-    private static $has_one = [
-        'Member' => Member::class,
     ];
 
     /**
@@ -57,9 +71,9 @@ class Order extends DataObject
      * @var array
      */
     private static $summary_fields = [
-        'Order_ID',
+        'OrderID',
         'TransactionDate.Nice',
-        'Member.Name',
+        'Email',
         'ProductTotal.Nice',
         'ShippingTotal.Nice',
         'TaxTotal.Nice',
@@ -71,12 +85,11 @@ class Order extends DataObject
      * @var array
      */
     private static $searchable_fields = [
-        'Order_ID',
+        'OrderID',
         'TransactionDate' => [
             'field' => DateField::class,
             'filter' => 'PartialMatchFilter',
         ],
-        'Member.ID',
         'OrderTotal',
         'Details.ProductID',
     ];
@@ -92,7 +105,7 @@ class Order extends DataObject
      * @var array
      */
     private static $indexes = [
-        'Order_ID' => true, // make unique
+        'OrderID' => true, // make unique
     ];
 
     /**
@@ -113,11 +126,11 @@ class Order extends DataObject
     public function fieldLabels($includerelations = true)
     {
         $labels = parent::fieldLabels();
-        $labels['Order_ID'] = _t(__CLASS__ . '.Order_ID', 'Order ID#');
+        $labels['StoreID'] = _t(__CLASS__ . '.StoreID', 'Store ID#');
+        $labels['OrderID'] = _t(__CLASS__ . '.OrderID', 'Order ID#');
         $labels['TransactionDate'] = _t(__CLASS__ . '.TransactionDate', 'Date');
         $labels['TransactionDate.NiceUS'] = _t(__CLASS__ . '.TransactionDate', 'Date');
-        $labels['Member.Name'] = _t(__CLASS__ . '.MemberName', 'Customer');
-        $labels['Member.ID'] = _t(__CLASS__ . '.MemberName', 'Customer');
+        $labels['Email'] = _t(__CLASS__ . '.Email', 'Email');
         $labels['ProductTotal.Nice'] = _t(__CLASS__ . '.ProductTotal', 'Sub Total');
         $labels['TaxTotal.Nice'] = _t(__CLASS__ . '.TaxTotal', 'Tax');
         $labels['ShippingTotal.Nice'] = _t(__CLASS__ . '.ShippingTotal', 'Shipping');
@@ -174,7 +187,7 @@ class Order extends DataObject
     protected function setTransaction()
     {
         if ($this->Response) {
-            $this->transaction = Transaction::create($this->Order_ID, urldecode($this->Response));
+            $this->transaction = Transaction::create($this->OrderID, urldecode($this->Response));
         } else {
             $this->transaction = false;
         }
@@ -201,7 +214,7 @@ class Order extends DataObject
     private function getDecryptedResponse()
     {
         $helper = FoxyHelper::create();
-        if ($secret = $helper->getStoreSecret() && $this->Response) {
+        if ($secret = $helper->config()->get('secret') && $this->Response) {
             return \rc4crypt::decrypt($secret, urldecode($this->Response));
         }
         return false;
@@ -215,7 +228,8 @@ class Order extends DataObject
         $transaction = $this->getTransaction()->getTransaction();
 
         // Record transaction data from FoxyCart Datafeed:
-        $this->Store_ID = (int)$transaction->store_id;
+        $this->StoreID = (int)$transaction->store_id;
+        $this->Email = (string)$transaction->customer_email;
         $this->TransactionDate = (string)$transaction->transaction_date;
         $this->ProductTotal = (float)$transaction->product_total;
         $this->TaxTotal = (float)$transaction->tax_total;
