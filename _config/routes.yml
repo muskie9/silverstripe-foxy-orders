@@ -1,0 +1,7 @@
+---
+Name: foxyroutes
+After: framework/routes#coreroutes
+---
+SilverStripe\Control\Director:
+  rules:
+    'foxy//$Action/$ID/$Name': Dynamic\Foxy\Controller\FoxyController
