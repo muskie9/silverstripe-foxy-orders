@@ -5,6 +5,7 @@ namespace Dynamic\FoxyStripe\Controller;
 use Dynamic\Foxy\Controller\FoxyController;
 use Dynamic\Foxy\Model\FoxyHelper;
 use Dynamic\Foxy\Model\Order;
+use GuzzleHttp\Client;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Injector\Injector;
@@ -52,15 +53,10 @@ class DataTestController extends Controller
         $XMLOutput_encrypted = \rc4crypt::encrypt($myKey, $XMLOutput);
         $XMLOutput_encrypted = urlencode($XMLOutput_encrypted);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $myURL);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, array("FoxyData" => $XMLOutput_encrypted));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-
-        $response = curl_exec($ch);
-        $responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        $client = new Client();
+        $response = $client->request('POST', $myURL, [
+            'form_params' => ['FoxyData' => $XMLOutput_encrypted]
+        ]);
 
         $configString = print_r(static::config()->get('data'), true);
         /** @var DebugView $view */
@@ -71,7 +67,7 @@ class DataTestController extends Controller
         if ($this->getRequest()->getVar('data')) {
             echo "<h2>Data:</h2><pre>{$xml->HTML()}</pre>";
         }
-        echo "<h2>Response:</h2><pre>$response</pre>";
+        echo "<h2>Response:</h2><pre>" . $response->getBody() . "</pre>";
         echo '<p></p>';
         echo '</div>';
         echo $view->renderFooter();
