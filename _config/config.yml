@@ -1,0 +1,6 @@
+---
+name: foxy-orders-config
+---
+SilverStripe\Security\Member:
+  extensions:
+    - Dynamic\Foxy\Extension\CustomerExtension

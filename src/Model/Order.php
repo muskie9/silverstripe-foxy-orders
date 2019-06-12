@@ -48,6 +48,13 @@ class Order extends DataObject
     ];
 
     /**
+     * @var array
+     */
+    private static $has_one = [
+        'Member' => Member::class,
+    ];
+
+    /**
      * @var string
      */
     private static $singular_name = 'Order';
@@ -90,8 +97,7 @@ class Order extends DataObject
             'field' => DateField::class,
             'filter' => 'PartialMatchFilter',
         ],
-        'OrderTotal',
-        'Details.ProductID',
+        'OrderTotal'
     ];
 
     /**
