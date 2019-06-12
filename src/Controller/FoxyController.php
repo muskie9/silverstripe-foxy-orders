@@ -57,23 +57,9 @@ class FoxyController extends Controller
         $encryptedData = $request->postVar('FoxyData')
             ? urldecode($request->postVar('FoxyData'))
             : urldecode($request->postVar('FoxySubscriptionData'));
-        $decryptedData = $this->decryptFeedData($encryptedData);
-        $this->parseFeedData($encryptedData, $decryptedData);
+        $this->parseFeedData($encryptedData);
 
         $this->extend('addIntegrations', $encryptedData);
-    }
-
-    /**
-     * Decrypt the XML data feed from Foxy
-     *
-     * @param $data
-     * @return string
-     * @throws \SilverStripe\ORM\ValidationException
-     */
-    private function decryptFeedData($data)
-    {
-        $helper = FoxyHelper::create();
-        return \rc4crypt::decrypt($helper->config()->get('secret'), $data);
     }
 
     /**
@@ -83,8 +69,9 @@ class FoxyController extends Controller
      * @param $decryptedData
      * @throws ValidationException
      */
-    private function parseFeedData($encryptedData, $decryptedData)
+    private function parseFeedData($encryptedData)
     {
+        $decryptedData = $this->decryptFeedData($encryptedData);
         $orders = new \SimpleXMLElement($decryptedData);
         // loop over each transaction to find FoxyCart Order ID
         foreach ($orders->transactions->transaction as $transaction) {
@@ -105,8 +92,21 @@ class FoxyController extends Controller
         if (!$order = Order::get()->filter('OrderID', (int)$transaction->id)->first()) {
             $order = Order::create();
             $order->OrderID = (int)$transaction->id;
-            $order->Response = urlencode($encryptedData);
         }
+        $order->Response = urlencode($encryptedData);
         $order->write();
+    }
+
+    /**
+     * Decrypt the XML data feed from Foxy
+     *
+     * @param $data
+     * @return string
+     * @throws \SilverStripe\ORM\ValidationException
+     */
+    private function decryptFeedData($data)
+    {
+        $helper = FoxyHelper::create();
+        return \rc4crypt::decrypt($helper->config()->get('secret'), $data);
     }
 }

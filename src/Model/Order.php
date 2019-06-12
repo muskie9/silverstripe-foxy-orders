@@ -125,6 +125,30 @@ class Order extends DataObject
     private $transaction;
 
     /**
+     * @return mixed
+     */
+    protected function getTransaction()
+    {
+        if (!$this->transaction) {
+            $this->setTransaction();
+        }
+        return $this->transaction;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function setTransaction()
+    {
+        if ($this->Response) {
+            $this->transaction = Transaction::create($this->OrderID, urldecode($this->Response));
+        } else {
+            $this->transaction = false;
+        }
+        return $this;
+    }
+
+    /**
      * @param bool $includerelations
      *
      * @return array|string
@@ -177,30 +201,6 @@ class Order extends DataObject
     }
 
     /**
-     * @return mixed
-     */
-    protected function getTransaction()
-    {
-        if (!$this->transaction) {
-            $this->setTransaction();
-        }
-        return $this->transaction;
-    }
-
-    /**
-     * @return $this
-     */
-    protected function setTransaction()
-    {
-        if ($this->Response) {
-            $this->transaction = Transaction::create($this->OrderID, urldecode($this->Response));
-        } else {
-            $this->transaction = false;
-        }
-        return $this;
-    }
-
-    /**
      * @return bool
      *
      * @throws ValidationException
@@ -212,18 +212,6 @@ class Order extends DataObject
         }
 
         $this->extend('updateParseOrder', $this);
-    }
-
-    /**
-     * @return bool|string
-     */
-    private function getDecryptedResponse()
-    {
-        $helper = FoxyHelper::create();
-        if ($secret = $helper->config()->get('secret') && $this->Response) {
-            return \rc4crypt::decrypt($secret, urldecode($this->Response));
-        }
-        return false;
     }
 
     /**
