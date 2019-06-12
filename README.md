@@ -17,12 +17,8 @@ composer require dynamic/silverstripe-foxy-orders
 
 See [License](license.md)
 
-## Documentation
-
- * [Documentation readme](docs/en/readme.md)
-
 ## Maintainers
- * Dynamic <dev@dynamicagency.com>
+ *  [Dynamic](http://www.dynamicagency.com) (<dev@dynamicagency.com>)
  
 ## Bugtracker
 
