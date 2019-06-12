@@ -1,0 +1,3 @@
+Dynamic\Foxy\Model\Order:
+  one:
+    OrderTotal: "10.00"
