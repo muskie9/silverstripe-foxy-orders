@@ -22,7 +22,6 @@ class FoxyController extends Controller
      */
     private static $allowed_actions = [
         'index',
-        'sso',
     ];
 
     /**
@@ -109,35 +108,5 @@ class FoxyController extends Controller
             $order->Response = urlencode($encryptedData);
         }
         $order->write();
-    }
-
-    /**
-     * Single Sign on integration with FoxyCart.
-     */
-    public function sso()
-    {
-        // GET variables from FoxyCart Request
-        $fcsid = $this->request->getVar('fcsid');
-        $timestampNew = strtotime('+30 days');
-        // get current member if logged in. If not, create a 'fake' user with Customer_ID = 0
-        // fake user will redirect to FC checkout, ask customer to log in
-        // to do: consider a login/registration form here if not logged in
-        if (!$Member = Security::getCurrentUser()) {
-            $Member = new Member();
-            $Member->Customer_ID = 0;
-        }
-
-        $helper = FoxyHelper::create();
-        $auth_token = sha1($Member->Customer_ID . '|' . $timestampNew . '|' . $helper->config()->get('secret'));
-        $link = FoxyHelper::StoreURL();
-
-        $params = [
-            'fc_auth_token' => $auth_token,
-            'fcsid' => $fcsid,
-            'fc_customer_id' => $Member->Customer_ID,
-            'timestamp' => $timestampNew,
-        ];
-        $httpQuery = http_build_query($params);
-        $this->redirect("https://{$link}/checkout?$httpQuery");
     }
 }
