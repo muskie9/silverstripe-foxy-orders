@@ -97,6 +97,7 @@ class Order extends DataObject
             'field' => DateField::class,
             'filter' => 'PartialMatchFilter',
         ],
+        'Email',
         'OrderTotal'
     ];
 
