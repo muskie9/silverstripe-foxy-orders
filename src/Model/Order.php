@@ -2,12 +2,15 @@
 
 namespace Dynamic\Foxy\Model;
 
+use Dynamic\Foxy\Extension\Purchasable;
 use Dynamic\FoxyStripe\Foxy\Transaction;
 use SilverStripe\Forms\DateField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLVarchar;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\Security\Member;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\PermissionProvider;
 
 /**
  * Class Order
@@ -28,7 +31,7 @@ use SilverStripe\Security\Member;
  * @property int MemberID
  * @method Member Member
  */
-class Order extends DataObject
+class Order extends DataObject implements PermissionProvider
 {
     /**
      * @var array
@@ -234,5 +237,70 @@ class Order extends DataObject
         $this->OrderStatus = (string)$transaction->status;
 
         $this->extend('handleOrderInfo', $order, $response);
+    }
+
+    /**
+     * @return array
+     */
+    public function providePermissions()
+    {
+        return [
+            'MANAGE_FOXY_ORDERS' => [
+                'name' => _t(
+                    __CLASS__ . '.PERMISSION_MANAGE_ORDERS_DESCRIPTION',
+                    'Manage orders'
+                ),
+                'category' => _t(
+                    Purchasable::class . '.PERMISSIONS_CATEGORY',
+                    'Foxy'
+                ),
+                'help' => _t(
+                    __CLASS__ . '.PERMISSION_MANAGE_ORDERS_HELP',
+                    'Manage orders and view recipts'
+                ),
+                'sort' => 400,
+            ],
+        ];
+    }
+
+    /**
+     * @param bool $member
+     *
+     * @return bool|int
+     */
+    public function canView($member = null)
+    {
+        return Permission::checkMember($member, 'MANAGE_FOXY_ORDERS');
+    }
+
+    /**
+     * @param null $member
+     *
+     * @return bool
+     */
+    public function canEdit($member = null)
+    {
+        return false;
+    }
+
+    /**
+     * @param null $member
+     *
+     * @return bool
+     */
+    public function canDelete($member = null)
+    {
+        return false;
+    }
+
+    /**
+     * @param null  $member
+     * @param array $context
+     *
+     * @return bool
+     */
+    public function canCreate($member = null, $context = [])
+    {
+        return false;
     }
 }

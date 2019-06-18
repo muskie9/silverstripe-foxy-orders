@@ -1,0 +1,4 @@
+en:
+  Dynamic\Foxy\Model\Order:
+    PERMISSION_MANAGE_ORDERS_DESCRIPTION: 'Manage orders'
+    PERMISSION_MANAGE_ORDERS_HELP: 'Manage orders and view recipts'
