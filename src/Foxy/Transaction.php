@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\FoxyStripe\Foxy;
+namespace Dynamic\Foxy\Foxy;
 
 use Dynamic\Foxy\Model\FoxyHelper;
 use SilverStripe\Core\Injector\Injectable;
@@ -8,7 +8,7 @@ use SilverStripe\ORM\ValidationException;
 
 /**
  * Class Transaction
- * @package Dynamic\FoxyStripe\Foxy
+ * @package Dynamic\Foxy\Foxy
  */
 class Transaction
 {

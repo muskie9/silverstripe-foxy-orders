@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\FoxyStripe\Controller;
+namespace Dynamic\Foxy\Controller;
 
 use Dynamic\Foxy\Controller\FoxyController;
 use Dynamic\Foxy\Model\FoxyHelper;
@@ -20,6 +20,10 @@ use SilverStripe\Security\PasswordEncryptor;
  */
 class DataTestController extends Controller
 {
+    private static $allowed_actions = [
+        'index',
+        'xml',
+    ];
 
     /**
      * @var array
@@ -44,13 +48,7 @@ class DataTestController extends Controller
         $helper = new FoxyHelper();
         $myKey = $helper->config()->get('secret');
 
-        $this->updateConfig();
-        $config = static::config()->get('data');
-        $config['OrderDetails'] = ArrayList::create($config['OrderDetails']);
-        $xml = $this->renderWith('TestData', $config);
-        $XMLOutput = $xml->RAW();
-
-        $XMLOutput_encrypted = \rc4crypt::encrypt($myKey, $XMLOutput);
+        $XMLOutput_encrypted = \rc4crypt::encrypt($myKey, $this->xml());
         $XMLOutput_encrypted = urlencode($XMLOutput_encrypted);
 
         $client = new Client();
@@ -167,12 +165,32 @@ class DataTestController extends Controller
             'DeliveryType' => 'shipped',
             'CategoryDescription' => 'Default cateogry',
             'CategoryCode' => 'DEFAULT',
-            'Options' => [
-                'Name' => 'color',
-                'OptionValue' => 'blue',
-                'PriceMod' => '',
-                'WeightMod' => '',
-            ],
+            'Options' => ArrayList::create([
+                [
+                    'Name' => 'color',
+                    'OptionValue' => 'blue',
+                    'PriceMod' => '',
+                    'WeightMod' => '',
+                ],
+                [
+                    'Name' => 'product_id',
+                    'OptionValue' => '7',
+                    'PriceMod' => '',
+                    'WeightMod' => '',
+                ]
+            ])
         ];
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function xml()
+    {
+        $this->updateConfig();
+        $config = static::config()->get('data');
+        $config['OrderDetails'] = ArrayList::create($config['OrderDetails']);
+        $xml = $this->renderWith('TestData', $config);
+        return $xml->RAW();
     }
 }

@@ -3,7 +3,8 @@
 namespace Dynamic\Foxy\Model;
 
 use Dynamic\Foxy\Extension\Purchasable;
-use Dynamic\FoxyStripe\Foxy\Transaction;
+use Dynamic\Foxy\Foxy\Transaction;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\DateField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLVarchar;
@@ -56,6 +57,13 @@ class Order extends DataObject implements PermissionProvider
     private static $has_one = [
         'Member' => Member::class,
     ];
+
+    /**
+     * @var array
+     */
+    private static $has_many = array(
+        'Details' => OrderDetail::class,
+    );
 
     /**
      * @var string
@@ -213,6 +221,7 @@ class Order extends DataObject implements PermissionProvider
     {
         if ($this->getTransaction() && $this->getTransaction()->exists()) {
             $this->parseOrderInfo();
+            $this->parseOrderDetails();
         }
 
         $this->extend('updateParseOrder', $this);
@@ -237,6 +246,67 @@ class Order extends DataObject implements PermissionProvider
         $this->OrderStatus = (string)$transaction->status;
 
         $this->extend('handleOrderInfo', $order, $response);
+    }
+
+    /**
+     * @param $response
+     *
+     * @throws \SilverStripe\ORM\ValidationException
+     */
+    public function parseOrderDetails()
+    {
+        // remove previous OrderDetails and OrderOptions so we don't end up with duplicates
+        foreach ($this->Details() as $detail) {
+            /** @var OrderOption $orderOption */
+            foreach ($detail->OrderOptions() as $orderOption) {
+                $orderOption->delete();
+            }
+            $detail->delete();
+        }
+
+        $transaction = $this->getTransaction()->getTransaction();
+
+        // Associate ProductPages, Options, Quantity with Order
+        foreach ($transaction->transaction_details->transaction_detail as $detail) {
+            $OrderDetail = OrderDetail::create();
+            $OrderDetail->Quantity = (int)$detail->product_quantity;
+            $OrderDetail->ProductName = (string)$detail->product_name;
+            $OrderDetail->ProductCode = (string)$detail->product_code;
+            $OrderDetail->ProductImage = (string)$detail->image;
+            $OrderDetail->ProductCategory = (string)$detail->category_code;
+            $priceModifier = 0;
+
+            // parse OrderOptions
+            foreach ($detail->transaction_detail_options->transaction_detail_option as $option) {
+                // Find product via product_id custom variable
+                if ($option->product_option_name == 'product_id') {
+                    // if product is found, set relation to OrderDetail
+                    $OrderProduct = SiteTree::get()->byID((int)$option->product_option_value);
+                    if ($OrderProduct && $OrderProduct->isProduct()) {
+                        $OrderDetail->ProductID = $OrderProduct->ID;
+                    }
+                } else {
+                    // record non product_id options as OrderOption
+                    $OrderOption = OrderOption::create();
+                    $OrderOption->Name = (string)$option->product_option_name;
+                    $OrderOption->Value = (string)$option->product_option_value;
+                    $OrderOption->write();
+                    $OrderDetail->OrderOptions()->add($OrderOption);
+                    $priceModifier += $option->price_mod;
+                }
+            }
+
+            $OrderDetail->Price = (float)$detail->product_price + (float)$priceModifier;
+
+            // extend OrderDetail parsing, allowing for recording custom fields from FoxyCart
+            $this->extend('handleOrderItem', $this, $transaction, $OrderDetail);
+
+            // write
+            $OrderDetail->write();
+
+            // associate with this order
+            $this->Details()->add($OrderDetail);
+        }
     }
 
     /**
