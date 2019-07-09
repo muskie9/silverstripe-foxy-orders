@@ -1,9 +1,9 @@
 <?php
 
-namespace Dynamic\Foxy\Test\Model;
+namespace Dynamic\Foxy\Orders\Test\Model;
 
 use Dynamic\Foxy\Extension\Purchasable;
-use Dynamic\Foxy\Model\Order;
+use Dynamic\Foxy\Orders\Model\Order;
 use Dynamic\Foxy\Test\TestOnly\TestProduct;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\FieldList;

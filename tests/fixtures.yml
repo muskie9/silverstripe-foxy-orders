@@ -30,6 +30,6 @@ SilverStripe\Security\Member:
     Surname: User
     Email: user@dynamicagency.com
 
-Dynamic\Foxy\Model\Order:
+Dynamic\Foxy\Orders\Model\Order:
   one:
     OrderTotal: "10.00"

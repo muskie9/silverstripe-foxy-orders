@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\Foxy\Model;
+namespace Dynamic\Foxy\Orders\Model;
 
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\ORM\DataObject;

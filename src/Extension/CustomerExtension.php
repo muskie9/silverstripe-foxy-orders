@@ -1,8 +1,8 @@
 <?php
 
-namespace Dynamic\Foxy\Extension;
+namespace Dynamic\Foxy\Orders\Extension;
 
-use Dynamic\Foxy\Model\Order;
+use Dynamic\Foxy\Orders\Model\Order;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataExtension;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Dynamic\Foxy\Controller;
+namespace Dynamic\Foxy\Orders\Controller;
 
-use Dynamic\Foxy\Controller\FoxyController;
+use Dynamic\Foxy\Orders\Controller\FoxyController;
 use Dynamic\Foxy\Model\FoxyHelper;
 use Dynamic\Foxy\Model\Order;
 use GuzzleHttp\Client;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Dynamic\Foxy\Model;
+namespace Dynamic\Foxy\Orders\Model;
 
 use Dynamic\Foxy\Extension\Purchasable;
-use Dynamic\Foxy\Foxy\Transaction;
+use Dynamic\Foxy\Orders\Foxy\Transaction;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\DateField;
 use SilverStripe\ORM\DataObject;

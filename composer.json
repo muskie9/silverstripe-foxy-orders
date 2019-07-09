@@ -32,8 +32,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Dynamic\\Foxy\\": "src/",
-            "Dynamic\\Foxy\\Tests\\": "tests/"
+            "Dynamic\\Foxy\\Orders\\": "src/",
+            "Dynamic\\Foxy\\Orders\\Tests\\": "tests/"
         }
     },
     "extra": {

@@ -3,4 +3,4 @@ name: foxy-orders-config
 ---
 SilverStripe\Security\Member:
   extensions:
-    - Dynamic\Foxy\Extension\CustomerExtension
+    - Dynamic\Foxy\Orders\Extension\CustomerExtension

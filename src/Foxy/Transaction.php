@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\Foxy\Foxy;
+namespace Dynamic\Foxy\Orders\Foxy;
 
 use Dynamic\Foxy\Model\FoxyHelper;
 use SilverStripe\Core\Injector\Injectable;

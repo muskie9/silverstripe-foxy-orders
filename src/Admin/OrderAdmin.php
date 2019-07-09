@@ -1,8 +1,8 @@
 <?php
 
-namespace Dynamic\Foxy\Admin;
+namespace Dynamic\Foxy\Orders\Admin;
 
-use Dynamic\Foxy\Model\Order;
+use Dynamic\Foxy\Orders\Model\Order;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig;
