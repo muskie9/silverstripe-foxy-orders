@@ -10,6 +10,13 @@
         "orders"
     ],
     "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Dynamic",
+            "email": "dev@dynamicagency.com",
+            "homepage": "http://www.dynamicagency.com"
+        }
+    ],
     "require": {
         "dynamic/silverstripe-foxy": "^1.0",
         "guzzlehttp/guzzle": "^6.3"
