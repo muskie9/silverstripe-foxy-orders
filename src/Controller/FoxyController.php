@@ -3,7 +3,7 @@
 namespace Dynamic\Foxy\Orders\Controller;
 
 use Dynamic\Foxy\Model\FoxyHelper;
-use Dynamic\Foxy\Model\Order;
+use Dynamic\Foxy\Orders\Model\Order;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\ORM\ValidationException;

@@ -2,10 +2,13 @@
 
 namespace Dynamic\Foxy\Orders\Controller;
 
+use Dynamic\Foxy\Extension\Purchasable;
+use Dynamic\Foxy\Extension\Shippable;
 use Dynamic\Foxy\Orders\Controller\FoxyController;
 use Dynamic\Foxy\Model\FoxyHelper;
-use Dynamic\Foxy\Model\Order;
+use Dynamic\Foxy\Orders\Model\Order;
 use GuzzleHttp\Client;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Injector\Injector;
@@ -174,12 +177,26 @@ class DataTestController extends Controller
                 ],
                 [
                     'Name' => 'product_id',
-                    'OptionValue' => '7',
+                    'OptionValue' => $this->getTestProduct(),
                     'PriceMod' => '',
                     'WeightMod' => '',
                 ]
             ])
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTestProduct()
+    {
+        $pages = SiteTree::get();
+        foreach ($pages as $page) {
+            if ($page->hasExtension(Purchasable::class) || $page->hasExtension(Shippable::class)) {
+                return $page->ID;
+            }
+        }
+        return false;
     }
 
     /**
