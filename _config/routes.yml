@@ -4,7 +4,7 @@ After: framework/routes#coreroutes
 ---
 SilverStripe\Control\Director:
   rules:
-    'foxy//$Action/$ID/$Name': Dynamic\Foxy\Controller\FoxyController
+    'foxy//$Action/$ID/$Name': Dynamic\Foxy\Orders\Controller\FoxyController
 
 ---
 Only:
