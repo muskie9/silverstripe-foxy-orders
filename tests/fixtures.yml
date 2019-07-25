@@ -33,3 +33,7 @@ SilverStripe\Security\Member:
 Dynamic\Foxy\Orders\Model\Order:
   one:
     OrderTotal: "10.00"
+
+Dynamic\Foxy\Orders\Page\OrderHistory:
+  one:
+    Title: "Orders"
