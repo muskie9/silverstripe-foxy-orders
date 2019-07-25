@@ -221,6 +221,7 @@ class Order extends DataObject implements PermissionProvider
     {
         if ($this->getTransaction() && $this->getTransaction()->exists()) {
             $this->parseOrderInfo();
+            $this->parseOrderCustomer();
             $this->parseOrderDetails();
         }
 
@@ -246,6 +247,25 @@ class Order extends DataObject implements PermissionProvider
         $this->OrderStatus = (string)$transaction->status;
 
         $this->extend('handleOrderInfo', $order, $response);
+    }
+
+    /**
+     * @param $response
+     * @throws \SilverStripe\ORM\ValidationException
+     */
+    public function parseOrderCustomer()
+    {
+        $transaction = $this->getTransaction()->getTransaction();
+        $customer = false;
+
+        // if not a guest transaction in Foxy
+        if (isset($transaction->customer_email) && $transaction->is_anonymous == 0) {
+            if ($customer = Member::get()->filter('Email', $transaction->customer_email)->first()) {
+                // set Order MemberID
+                $this->MemberID = $customer->ID;
+            }
+        }
+        $this->extend('updateParseOrderCustomer', $transaction, $customer);
     }
 
     /**
