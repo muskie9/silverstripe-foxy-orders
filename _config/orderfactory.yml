@@ -1,0 +1,17 @@
+---
+name: foxy-orderfactory-config
+---
+
+Dynamic\Foxy\Orders\Factory\OrderFactory:
+  order_mapping:
+    id: 'OrderID'
+    store_id: 'StoreID'
+    customer_email: 'Email'
+    transaction_date: 'TransactionDate'
+    product_total: 'ProductTotal'
+    tax_total: 'TaxTotal'
+    shipping_total: 'ShippingTotal'
+    order_total: 'OrderTotal'
+    receipt_url: 'ReceiptURL'
+    status: 'OrderStatus'
+    customer_id: 'CustomerID'

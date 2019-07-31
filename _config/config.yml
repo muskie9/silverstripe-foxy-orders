@@ -1,6 +1,6 @@
 ---
 name: foxy-orders-config
 ---
-SilverStripe\Security\Member:
+Dynamic\Foxy\Parser\Controller\FoxyController:
   extensions:
-    - Dynamic\Foxy\Orders\Extension\CustomerExtension
+    - Dynamic\Foxy\Orders\Extension\FoxyControllerOrderExtension

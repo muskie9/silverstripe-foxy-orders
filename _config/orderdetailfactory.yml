@@ -1,0 +1,12 @@
+---
+name: foxy-orderdetailfactory-config
+---
+
+Dynamic\Foxy\Orders\Factory\OrderDetailFactory:
+  order_detail_mapping:
+    product_name: 'ProductName'
+    product_price: 'Price'
+    product_quantity: 'Quantity'
+    product_code: 'ProductCode'
+    image: 'ProductImage'
+    category_code: 'ProductCategory'

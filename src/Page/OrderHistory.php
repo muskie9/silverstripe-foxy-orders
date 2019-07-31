@@ -2,8 +2,13 @@
 
 namespace Dynamic\Foxy\Orders\Page;
 
+use Dynamic\Foxy\Orders\Model\Order;
 use SilverStripe\Security\Security;
 
+/**
+ * Class OrderHistory
+ * @package Dynamic\Foxy\Orders\Page
+ */
 class OrderHistory extends \Page
 {
     /**
@@ -43,12 +48,13 @@ class OrderHistory extends \Page
     /**
      * return all current Member's Orders.
      *
-     * @return bool
+     * @return bool|\SilverStripe\ORM\DataList
      */
     public function getOrderList()
     {
-        if ($Member = Security::getCurrentUser()) {
-            $list = $Member->Orders()->sort('TransactionDate', 'DESC');
+        if ($member = Security::getCurrentUser()) {
+            $list = Order::get()->filter('Email', $member->Email)->sort('TransactionDate', 'DESC');
+
             return $list;
         }
 

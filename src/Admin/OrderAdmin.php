@@ -8,14 +8,18 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
 
+/**
+ * Class OrderAdmin
+ * @package Dynamic\Foxy\Orders\Admin
+ */
 class OrderAdmin extends ModelAdmin
 {
     /**
      * @var array
      */
-    private static $managed_models = array(
+    private static $managed_models = [
         Order::class,
-    );
+    ];
 
     /**
      * @var string

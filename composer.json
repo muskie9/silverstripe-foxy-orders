@@ -18,8 +18,7 @@
         }
     ],
     "require": {
-        "dynamic/silverstripe-foxy": "^1.0",
-        "guzzlehttp/guzzle": "^6.3"
+        "dynamic/silverstripe-foxy-feed-parser": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",

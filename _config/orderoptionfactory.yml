@@ -1,0 +1,10 @@
+---
+name: foxy-orderoptionfactory-config
+---
+
+Dynamic\Foxy\Orders\Factory\OrderOptionFactory:
+  option_mapping:
+    product_option_name: 'Name'
+    product_option_value: 'Value'
+    price_mod: 'PriceModifier'
+    weight_mod: 'WeightModifier'
