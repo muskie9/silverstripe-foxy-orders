@@ -3,13 +3,10 @@
 namespace Dynamic\Foxy\Orders\Model;
 
 use Dynamic\Foxy\Extension\Purchasable;
-use Dynamic\Foxy\Orders\Foxy\Transaction;
-use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\DateField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLVarchar;
 use SilverStripe\ORM\HasManyList;
-use SilverStripe\ORM\ValidationException;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;

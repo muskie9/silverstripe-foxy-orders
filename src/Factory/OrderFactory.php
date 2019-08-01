@@ -6,6 +6,7 @@ use Dynamic\Foxy\Orders\Model\Order;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extensible;
 use SilverStripe\Core\Injector\Injectable;
+use SilverStripe\Security\Member;
 use SilverStripe\View\ArrayData;
 
 /**
@@ -64,6 +65,12 @@ class OrderFactory extends FoxyFactory
                 $order->{$ssFoxy} = $transaction->getField($foxy);
             }
         }
+
+        if ($member = Member::get()->filter('Email', $order->Email)->first()) {
+            $order->MemberID = $member->ID;
+        }
+
+        $order->Response = $this->getTransaction()->getEncryptedData();
 
         $order->write();
 
