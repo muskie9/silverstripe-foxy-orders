@@ -3,6 +3,7 @@
 namespace Dynamic\Foxy\Orders\Factory;
 
 use Dynamic\Foxy\Orders\Model\OrderDetail;
+use Dynamic\Products\Page\Product;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 
@@ -36,6 +37,10 @@ class OrderDetailFactory extends FoxyFactory
                 if ($detail->hasField($foxy)) {
                     $orderDetail->{$ssFoxy} = $detail->getField($foxy);
                 }
+            }
+
+            if ($product = Product::get()->filter('Code', $orderDetail->ProductCode)->first()) {
+                $orderDetail->ProductID = $product->ID;
             }
 
             $orderDetail->write();
