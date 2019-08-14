@@ -70,7 +70,7 @@ class OrderFactory extends FoxyFactory
             $order->MemberID = $member->ID;
         }
 
-        $order->Response = $this->getTransaction()->getEncryptedData();
+        $order->Response = urlencode($this->getTransaction()->getEncryptedData());
 
         $order->write();
 
