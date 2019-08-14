@@ -2,8 +2,10 @@
 
 namespace Dynamic\Foxy\Orders\Factory;
 
+use Dynamic\Foxy\Model\FoxyHelper;
 use Dynamic\Foxy\Orders\Model\OrderDetail;
-use Dynamic\Products\Page\Product;
+use Dynamic\Foxy\Products\Page\ShippableProduct;
+use SilverStripe\Dev\Debug;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 
@@ -39,7 +41,11 @@ class OrderDetailFactory extends FoxyFactory
                 }
             }
 
-            if ($product = Product::get()->filter('Code', $orderDetail->ProductCode)->first()) {
+            $codeFilter = function (\Page $page) use ($detail) {
+                return $page->Code == $detail->getField('product_code');
+            };
+
+            if ($product = FoxyHelper::singleton()->getProducts()->filterByCallback($codeFilter)->first()) {
                 $orderDetail->ProductID = $product->ID;
             }
 

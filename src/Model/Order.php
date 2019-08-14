@@ -4,6 +4,9 @@ namespace Dynamic\Foxy\Orders\Model;
 
 use Dynamic\Foxy\Extension\Purchasable;
 use SilverStripe\Forms\DateField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLVarchar;
 use SilverStripe\ORM\HasManyList;
@@ -154,6 +157,18 @@ class Order extends DataObject implements PermissionProvider
         $labels['Details.ProductID'] = _t(__CLASS__ . '.Details.ProductID', 'Product');
 
         return $labels;
+    }
+
+    /**
+     * @return FieldList
+     */
+    public function getCMSFields()
+    {
+        $this->beforeUpdateCMSFields(function (FieldList $fields) {
+            $fields->removeByName(['Response']);
+        });
+
+        return parent::getCMSFields();
     }
 
     /**

@@ -6,6 +6,7 @@ use Dynamic\Foxy\Orders\Model\Order;
 use SilverStripe\Admin\ModelAdmin;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
 
 /**
@@ -50,12 +51,8 @@ class OrderAdmin extends ModelAdmin
         /** @var GridField $gridField */
         $gridField = $form->Fields()->fieldByName($gridFieldName);
 
-        // GridField configuration
-        /** @var GridFieldConfig $config */
-        $config = $gridField->getConfig();
-
-        // remove edit icon
-        $config->removeComponentsByType(GridFieldEditButton::class);
+        /** @var $config GridFieldConfig_RecordViewer */
+        $gridField->setConfig($config = GridFieldConfig_RecordViewer::create());
 
         return $form;
     }
