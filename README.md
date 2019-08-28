@@ -17,6 +17,16 @@ composer require dynamic/silverstripe-foxy-orders
 
 See [License](license.md)
 
+## Configuration
+
+Add the following to `foxy.yml`:
+
+```yaml
+SilverStripe\Security\Member:
+  extensions:
+    - Dynamic\Foxy\Orders\Extension\MemberDataExtension
+```
+
 ## Maintainers
  *  [Dynamic](http://www.dynamicagency.com) (<dev@dynamicagency.com>)
  
