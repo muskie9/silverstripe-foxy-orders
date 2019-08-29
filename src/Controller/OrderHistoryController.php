@@ -2,6 +2,9 @@
 
 namespace Dynamic\Foxy\Orders\Page;
 
+use Dynamic\Foxy\Orders\Model\Order;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\PaginatedList;
 use SilverStripe\Security\Security;
 
@@ -46,12 +49,16 @@ class OrderHistoryController extends \PageController
 
     protected function setOrderPaginatedList()
     {
-        $request = $this->getRequest();
-        $orders = $this->data()->getOrderList();
-        $start = ($request->getVar('start')) ? (int)$request->getVar('start') : 0;
-        $records = PaginatedList::create($orders, $request);
-        $records->setPageStart($start);
-        $records->setPageLength($this->data()->PerPage);
+        if (Security::getCurrentUser()) {
+            $request = $this->getRequest();
+            $orders = $this->data()->getOrderList();
+            $start = ($request->getVar('start')) ? (int)$request->getVar('start') : 0;
+            $records = PaginatedList::create($orders, $request);
+            $records->setPageStart($start);
+            $records->setPageLength($this->data()->PerPage);
+        } else {
+            $records = ArrayList::create();
+        }
 
         $this->extend('updateOrderPaginatedList', $records);
 
