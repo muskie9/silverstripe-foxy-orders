@@ -2,6 +2,17 @@
 
 Add order history to your SilverStripe Foxy store.
 
+[![Build Status](https://travis-ci.org/dynamic/silverstripe-foxy-orders.svg?branch=master)](https://travis-ci.org/dynamic/silverstripe-foxy-orders)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dynamic/silverstripe-foxy-orders/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/dynamic/silverstripe-foxy-orders/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/dynamic/silverstripe-foxy-orders/badges/build.png?b=master)](https://scrutinizer-ci.com/g/dynamic/silverstripe-foxy-orders/build-status/master)
+[![codecov](https://codecov.io/gh/dynamic/silverstripe-foxy-orders/branch/master/graph/badge.svg)](https://codecov.io/gh/dynamic/silverstripe-foxy-orders)
+
+[![Latest Stable Version](https://poser.pugx.org/dynamic/silverstripe-foxy-orders/v/stable)](https://packagist.org/packages/dynamic/silverstripe-foxy-orders)
+[![Total Downloads](https://poser.pugx.org/dynamic/silverstripe-foxy-orders/downloads)](https://packagist.org/packages/dynamic/silverstripe-foxy-orders)
+[![Latest Unstable Version](https://poser.pugx.org/dynamic/silverstripe-foxy-orders/v/unstable)](https://packagist.org/packages/dynamic/silverstripe-foxy-orders)
+[![License](https://poser.pugx.org/dynamic/silverstripe-foxy-orders/license)](https://packagist.org/packages/dynamic/silverstripe-foxy-orders)
+
+
 ## Requirements
 
 * SilverStripe ^4.0
