@@ -33,7 +33,7 @@ class OrderDetail extends DataObject
     private static $db = [
         'Quantity' => 'Int',
         'Price' => 'Currency',
-        'ProductName' => 'Varchar(255)',
+        'ProductName' => 'HTMLVarchar(255)',
         'ProductCode' => 'Varchar(100)',
         'ProductImage' => 'Text',
         'ProductCategory' => 'Varchar(100)',
