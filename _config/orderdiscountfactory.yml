@@ -1,0 +1,12 @@
+---
+name: foxy-orderdiscountfactory-config
+---
+
+Dynamic\Foxy\Orders\Factory\OrderDiscountFactory:
+  order_discount_mapping:
+    name: 'Title'
+    code: 'Code'
+    amount: 'Amount'
+    display: 'Display'
+    coupon_discount_type: 'DiscountType'
+    coupon_discount_details: 'DiscountDetails'

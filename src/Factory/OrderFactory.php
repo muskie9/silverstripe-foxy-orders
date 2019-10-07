@@ -15,9 +15,7 @@ use SilverStripe\View\ArrayData;
  */
 class OrderFactory extends FoxyFactory
 {
-    use Configurable;
     use Extensible;
-    use Injectable;
 
     /**
      * @var Order

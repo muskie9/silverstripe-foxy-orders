@@ -67,6 +67,7 @@ class Order extends DataObject implements PermissionProvider
      */
     private static $has_many = [
         'Details' => OrderDetail::class,
+        'Discounts' => OrderDiscount::class,
     ];
 
     /**
