@@ -75,6 +75,7 @@ class OrderFactory extends FoxyFactory
         $order->write();
 
         $order->Details()->addMany(OrderDetailFactory::create($this->getTransaction())->getOrderDetails());
+        OrderDiscountFactory::create($this->getTransaction())->getOrderDiscounts();
 
         $this->order = Order::get()->byID($order->ID);
 

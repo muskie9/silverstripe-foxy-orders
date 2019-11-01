@@ -5,6 +5,7 @@ namespace Dynamic\Foxy\Orders\Factory;
 use Dynamic\Foxy\Orders\Model\Order;
 use Dynamic\Foxy\Orders\Model\OrderDiscount;
 use SilverStripe\Core\Extensible;
+use SilverStripe\ORM\ValidationException;
 use SilverStripe\View\ArrayData;
 
 /**
@@ -16,32 +17,33 @@ class OrderDiscountFactory extends FoxyFactory
     use Extensible;
 
     /**
-     * @var OrderDiscount
+     * @var array
      */
-    private $order_discount;
+    private $discount_records = [];
 
     /**
-     * @return OrderDiscount
-     * @throws \SilverStripe\ORM\ValidationException
+     * @return array
+     * @throws ValidationException
      */
-    public function getOrderDiscount(): OrderDiscount
+    public function getOrderDiscounts(): array
     {
-        if (!$this->order_discount instanceof OrderDiscount) {
-            $this->setOrderDiscount();
+        if (empty($this->discount_records)) {
+            $this->setOrderDiscounts();
         }
 
-        return $this->order_discount;
+        return $this->discount_records;
     }
 
     /**
      * @return $this
-     * @throws \SilverStripe\ORM\ValidationException
+     * @throws ValidationException
      */
-    public function setOrderDiscount(): self
+    public function setOrderDiscounts(): self
     {
         /** @var ArrayData $transaction */
         $discounts = $this->getTransaction()->getParsedTransactionData()->getField('discounts');
         $transactionID = $this->getTransaction()->getParsedTransactionData()->transaction->getField('id');
+        $discountRecords = [];
 
         foreach ($discounts as $discount) {
             $orderDiscount = OrderDiscount::create();
@@ -54,6 +56,12 @@ class OrderDiscountFactory extends FoxyFactory
 
             $orderDiscount->OrderID = Order::get()->filter('OrderID', $transactionID)->first();
             $orderDiscount->write();
+
+            $discountRecords[] = $orderDiscount;
         }
+
+        $this->discount_records = $discountRecords;
+
+        return $this;
     }
 }
