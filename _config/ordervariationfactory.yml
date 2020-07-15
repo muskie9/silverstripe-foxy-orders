@@ -1,0 +1,10 @@
+---
+name: foxy-ordervariationfactory-config
+---
+
+Dynamic\Foxy\Orders\Factory\OrderVariationFactory:
+  variation_mapping:
+    product_option_name: 'Name'
+    product_option_value: 'Value'
+    price_mod: 'PriceModifier'
+    weight_mod: 'WeightModifier'

@@ -2,6 +2,7 @@
 
 namespace Dynamic\Foxy\Orders\Model;
 
+use Dynamic\Foxy\Model\Variation;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBCurrency;
@@ -52,6 +53,7 @@ class OrderDetail extends DataObject
      */
     private static $has_many = [
         'OrderOptions' => OrderOption::class,
+        'OrderVariations' => OrderVariation::class,
     ];
 
     /**

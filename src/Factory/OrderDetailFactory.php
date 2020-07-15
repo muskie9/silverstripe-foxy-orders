@@ -3,9 +3,10 @@
 namespace Dynamic\Foxy\Orders\Factory;
 
 use Dynamic\Foxy\Model\FoxyHelper;
+use Dynamic\Foxy\Model\Variation;
 use Dynamic\Foxy\Orders\Model\OrderDetail;
+use Dynamic\Foxy\Orders\Model\OrderVariation;
 use Dynamic\Foxy\Products\Page\ShippableProduct;
-use SilverStripe\Dev\Debug;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\ArrayData;
 
@@ -47,11 +48,16 @@ class OrderDetailFactory extends FoxyFactory
 
             if ($product = FoxyHelper::singleton()->getProducts()->filterByCallback($codeFilter)->first()) {
                 $orderDetail->ProductID = $product->ID;
+            } elseif ($variation = Variation::get()->filter('FinalCode', $detail->getField('product_code'))->first()) {
+                $orderDetail->ProductID = $variation->ProductID;
             }
 
             $orderDetail->write();
 
-            $orderDetail->OrderOptions()->addMany(OrderOptionFactory::create($detail)->getOrderOptions());
+            $orderDetail->OrderVariations()->addMany(OrderVariationFactory::create(
+                $detail,
+                $orderDetail->ProductID
+            )->getOrderVariations());
 
             $details->push($orderDetail);
         }
