@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.1](https://github.com/dynamic/silverstripe-foxy-orders/tree/1.0.1) (2020-07-14)
+
+[Full Changelog](https://github.com/dynamic/silverstripe-foxy-orders/compare/1.0.0...1.0.1)
+
+**Closed issues:**
+
+- BUG OrderDetailFactory - check if Code belongs to a Variation [\#55](https://github.com/dynamic/silverstripe-foxy-orders/issues/55)
+
+**Merged pull requests:**
+
+- FEATURE Order factories - handle variations [\#56](https://github.com/dynamic/silverstripe-foxy-orders/pull/56) ([jsirish](https://github.com/jsirish))
+- BUGFIX Travis - remove php 7.0 [\#54](https://github.com/dynamic/silverstripe-foxy-orders/pull/54) ([jsirish](https://github.com/jsirish))
+- BUGFIX Travis phpcs config [\#52](https://github.com/dynamic/silverstripe-foxy-orders/pull/52) ([jsirish](https://github.com/jsirish))
+
 ## [1.0.0](https://github.com/dynamic/silverstripe-foxy-orders/tree/1.0.0) (2019-10-30)
 
 [Full Changelog](https://github.com/dynamic/silverstripe-foxy-orders/compare/0ac7b6271ffc1e5301b32bcef796ebaff81bdc06...1.0.0)
@@ -25,11 +39,11 @@
 
 **Fixed bugs:**
 
-- BUG ProductName needs to be HTMLText [\#48](https://github.com/dynamic/silverstripe-foxy-orders/issues/48)
 - BUG OrderHistoryController - setOrderPaginatedList\(\) throws an error if a user accesses the page when not logged in [\#46](https://github.com/dynamic/silverstripe-foxy-orders/issues/46)
 - BUG OrderDetailFactory - Price not being set [\#40](https://github.com/dynamic/silverstripe-foxy-orders/issues/40)
 - BUG OrderFactory - Response is not being set [\#38](https://github.com/dynamic/silverstripe-foxy-orders/issues/38)
 - BUG OrderDetail - ProductID is not being set during order parsing [\#36](https://github.com/dynamic/silverstripe-foxy-orders/issues/36)
+- BUG ProductName needs to be HTMLText [\#48](https://github.com/dynamic/silverstripe-foxy-orders/issues/48)
 
 **Closed issues:**
 
