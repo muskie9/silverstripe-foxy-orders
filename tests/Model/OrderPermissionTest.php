@@ -2,15 +2,17 @@
 
 namespace Dynamic\Foxy\Orders\Test\Model;
 
-use Dynamic\Foxy\Extension\Purchasable;
 use Dynamic\Foxy\Orders\Model\Order;
-use Dynamic\Foxy\Test\TestOnly\TestProduct;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\i18n\i18n;
 use SilverStripe\Security\Member;
 
-class OrderTest extends SapphireTest
+/**
+ * Class OrderPermissionTest
+ * @package Dynamic\Foxy\Orders\Test\Model
+ */
+class OrderPermissionTest extends SapphireTest
 {
     /**
      * @var string
@@ -32,8 +34,7 @@ class OrderTest extends SapphireTest
      */
     public function testProvidePermissions()
     {
-        /** @var TestProduct $object */
-        $object = singleton(Order::class);
+        $object = Order::singleton();
 
         i18n::set_locale('en');
         $expected = [
@@ -41,8 +42,8 @@ class OrderTest extends SapphireTest
                 'name' => 'Manage orders',
                 'category' => 'Foxy',
                 'help' => 'Manage orders and view recipts',
-                'sort' => 400
-            ]
+                'sort' => 400,
+            ],
         ];
         $this->assertEquals($expected, $object->providePermissions());
     }
@@ -54,11 +55,11 @@ class OrderTest extends SapphireTest
     {
         /** @var Order $object */
         $object = singleton(Order::class);
-        /** @var \SilverStripe\Security\Member $admin */
+        /** @var Member $admin */
         $admin = $this->objFromFixture(Member::class, 'admin');
-        /** @var \SilverStripe\Security\Member $siteOwner */
+        /** @var Member $siteOwner */
         $siteOwner = $this->objFromFixture(Member::class, 'site-owner');
-        /** @var \SilverStripe\Security\Member $default */
+        /** @var Member $default */
         $default = $this->objFromFixture(Member::class, 'default');
 
         $this->assertFalse($object->canCreate($default));
@@ -73,11 +74,11 @@ class OrderTest extends SapphireTest
     {
         /** @var Order $object */
         $object = singleton(Order::class);
-        /** @var \SilverStripe\Security\Member $admin */
+        /** @var Member $admin */
         $admin = $this->objFromFixture(Member::class, 'admin');
-        /** @var \SilverStripe\Security\Member $siteOwner */
+        /** @var Member $siteOwner */
         $siteOwner = $this->objFromFixture(Member::class, 'site-owner');
-        /** @var \SilverStripe\Security\Member $default */
+        /** @var Member $default */
         $default = $this->objFromFixture(Member::class, 'default');
 
         $this->assertFalse($object->canEdit($default));
@@ -92,11 +93,11 @@ class OrderTest extends SapphireTest
     {
         /** @var Order $object */
         $object = singleton(Order::class);
-        /** @var \SilverStripe\Security\Member $admin */
+        /** @var Member $admin */
         $admin = $this->objFromFixture(Member::class, 'admin');
-        /** @var \SilverStripe\Security\Member $siteOwner */
+        /** @var Member $siteOwner */
         $siteOwner = $this->objFromFixture(Member::class, 'site-owner');
-        /** @var \SilverStripe\Security\Member $default */
+        /** @var Member $default */
         $default = $this->objFromFixture(Member::class, 'default');
 
         $this->assertFalse($object->canDelete($default));

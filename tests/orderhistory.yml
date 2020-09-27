@@ -1,0 +1,5 @@
+Dynamic\Foxy\Orders\Page\OrderHistory:
+  one:
+    Title: "Orders"
+    URLSegment: 'orders'
+    ParentID: 0

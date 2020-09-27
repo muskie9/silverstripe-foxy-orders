@@ -1,0 +1,5 @@
+SilverStripe\Security\Member:
+  customerone:
+    FirstName: 'John'
+    Surname: 'Doe'
+    Email: 'johndoe@test.test'

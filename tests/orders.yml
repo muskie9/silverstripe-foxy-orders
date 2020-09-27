@@ -1,0 +1,165 @@
+Dynamic\Foxy\Model\FoxyCategory:
+  one:
+    Title: 'Category One'
+    Code: '12345'
+  two:
+    Title: 'Category Two'
+    Code: '67890'
+
+Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct:
+  productone:
+    Title: 'My Sample Product One'
+    Price: 25.00
+    Code: 'sample-product-one'
+    Available: true
+    QuantityMax: 0
+    FoxyCategory: =>Dynamic\Foxy\Model\FoxyCategory.one
+  productwo:
+    Title: 'My Sample Product Two'
+    Price: 50.00
+    Code: 'sample-product-two'
+    Available: false
+    QuantityMax: 0
+    FoxyCategory: =>Dynamic\Foxy\Model\FoxyCategory.one
+  productthree:
+    Title: 'My Sample Product Three'
+    Price: 100.00
+    Code: 'sample-product-three'
+    Available: true
+    QuantityMax: 0
+    FoxyCategory: =>Dynamic\Foxy\Model\FoxyCategory.two
+  productfour:
+    Title: 'My Sample Product Four'
+    Price: 1000.00
+    Code: 'sample-product-four'
+    Avalailable: true
+    QuantityMax: 0
+    FoxyCategory: =>Dynamic\Foxy\Model\FoxyCategory.two
+  productfiveandvariations:
+    Title: 'Product Five and Variations'
+    Price: 100.00
+    Code: 'product-five-and-variations'
+    Avalailable: true
+    QuantityMax: 0
+    FoxyCategory: =>Dynamic\Foxy\Model\FoxyCategory.one
+
+Dynamic\Foxy\Model\VariationType:
+  typeone:
+    Title: 'Variation Type One'
+
+Dynamic\Foxy\Model\Variation:
+  variationone:
+    Title: 'Variation One'
+    PriceModifier: 10
+    PriceModifierAction: Add
+    Available: true
+    VariationType: =>Dynamic\Foxy\Model\VariationType.typeone
+    Product: =>Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct.productfiveandvariations
+  variationtwo:
+    Title: 'Variation Two'
+    PriceModifier: 150
+    PriceModifierAction: Set
+    Available: true
+    VariationType: =>Dynamic\Foxy\Model\VariationType.typeone
+    Product: =>Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct.productfiveandvariations
+  variationthree:
+    Title: 'Variation One'
+    PriceModifier: 20
+    PriceModifierAction: Subtract
+    Available: true
+    VariationType: =>Dynamic\Foxy\Model\VariationType.typeone
+    Product: =>Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct.productfiveandvariations
+  variationtwosetavailable:
+    Title: 'Variation One'
+    PriceModifier: 10
+    PriceModifierAction: Add
+    Available: true
+    VariationType: =>Dynamic\Foxy\Model\VariationType.typeone
+    Product: =>Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct.productfour
+  variationtwosetunavailable:
+    Title: 'Variation One'
+    PriceModifier: 10
+    PriceModifierAction: Add
+    Available: false
+    VariationType: =>Dynamic\Foxy\Model\VariationType.typeone
+    Product: =>Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct.productfour
+  variationsetunavailable:
+    Title: 'Variation One'
+    PriceModifier: 10
+    PriceModifierAction: Add
+    Available: false
+    VariationType: =>Dynamic\Foxy\Model\VariationType.typeone
+    Product: =>Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct.productthree
+
+Dynamic\Foxy\Orders\Model\Order:
+  one:
+    StoreID: 123234345
+    OrderID: 111222333
+    Email: 'testone@test.test'
+    ProductTotal: 100.00
+    TaxTotal: 3.25
+    ShippingTotal: 5.00
+    OrderTotal: 108.25
+    ReceiptURL: 'https://foobar.test/view/111222333'
+    OrderStatus: ''
+    Response: ''
+    CustomerID: ''
+  two:
+    StoreID: 123234345
+    OrderID: 222333444
+    Email: 'testone@test.test'
+    ProductTotal: 23.75
+    TaxTotal: 2.25
+    ShippingTotal: 7.00
+    OrderTotal: 33.00
+    ReceiptURL: 'https://foobar.test/view/222333444'
+    OrderStatus: ''
+    Response: ''
+    CustomerID: ''
+  three:
+    StoreID: 123234345
+    OrderID: 333444555
+    Email: 'testone@test.test'
+    ProductTotal: 15.33
+    TaxTotal: 1.48
+    ShippingTotal: 2.00
+    OrderTotal: 18.81
+    ReceiptURL: 'https://foobar.test/view/333444555'
+    OrderStatus: ''
+    Response: ''
+    CustomerID: ''
+  four:
+    StoreID: 123234345
+    OrderID: 444555666
+    Email: 'testone@test.test'
+    ProductTotal: 152.50
+    TaxTotal: 8.25
+    ShippingTotal: 10.00
+    OrderTotal: 170.75
+    ReceiptURL: 'https://foobar.test/view/444555666'
+    OrderStatus: ''
+    Response: ''
+    CustomerID: ''
+  five:
+    StoreID: 123234345
+    OrderID: 555666777
+    Email: 'testone@test.test'
+    ProductTotal: 20.00
+    TaxTotal: 2.00
+    ShippingTotal: 3.00
+    OrderTotal: 25.00
+    ReceiptURL: 'https://foobar.test/view/555666777'
+    OrderStatus: ''
+    Response: ''
+    CustomerID: ''
+
+Dynamic\Foxy\Orders\Model\OrderDetail:
+  one:
+    Quantity: 2
+    Price: 50.0
+    ProductName: 'My Sample Product One'
+    ProductCode: 'sample-product-one'
+    ProductImage: 'https://foo.test/my-image-one.jpg'
+    ProductCategory: 'Category One'
+    Product: =>Dynamic\Foxy\Orders\Tests\TestOnly\Page\TestProduct.productwo
+    Order: =>Dynamic\Foxy\Orders\Model\Order.one

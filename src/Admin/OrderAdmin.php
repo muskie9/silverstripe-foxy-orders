@@ -4,10 +4,9 @@ namespace Dynamic\Foxy\Orders\Admin;
 
 use Dynamic\Foxy\Orders\Model\Order;
 use SilverStripe\Admin\ModelAdmin;
+use SilverStripe\Forms\Form;
 use SilverStripe\Forms\GridField\GridField;
-use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordViewer;
-use SilverStripe\Forms\GridField\GridFieldEditButton;
 
 /**
  * Class OrderAdmin
@@ -41,7 +40,7 @@ class OrderAdmin extends ModelAdmin
      * @param null $id
      * @param null $fields
      *
-     * @return \SilverStripe\Forms\Form
+     * @return Form
      */
     public function getEditForm($id = null, $fields = null)
     {
@@ -51,8 +50,7 @@ class OrderAdmin extends ModelAdmin
         /** @var GridField $gridField */
         $gridField = $form->Fields()->fieldByName($gridFieldName);
 
-        /** @var $config GridFieldConfig_RecordViewer */
-        $gridField->setConfig($config = GridFieldConfig_RecordViewer::create());
+        $gridField->setConfig(GridFieldConfig_RecordViewer::create());
 
         return $form;
     }
