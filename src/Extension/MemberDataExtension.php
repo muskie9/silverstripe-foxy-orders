@@ -23,7 +23,7 @@ class MemberDataExtension extends DataExtension
     /**
      * @param FieldList $fields
      *
-     * TODO determine where this needs to be moved to. This following assumes this field exists, however the field is not applied by this module.
+     * TODO determine where this needs to be moved to. This following assumes this field exists, however the field is not applied by this module.//phpcs:ignore
      */
     public function updateCMSFields(FieldList $fields)
     {
